@@ -9,7 +9,6 @@ import { EmptySearch } from "./empty-search";
 import { EmptyBoards } from "./empty-boards";
 import { EmptyFavorites } from "./empty-favorites";
 import { NewBoardButton } from "./new-board-button";
-import { Key } from "react";
 
 interface BoardListProps {
   orgId: string;
@@ -64,10 +63,10 @@ export const BoardList = ({
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-8 pb-10">
         <NewBoardButton orgId={orgId} />
-        {data?.map((board: { _id: Key | null | undefined; title: string; imageUrl: string; authorId: string; authorName: string; _creationTime: number; orgId: string; isFavorite: boolean; }) => (
+        {data?.map((board) => (
           <BoardCard
             key={board._id}
-            id={board._id?.toString() || ""} 
+            id={board._id}
             title={board.title}
             imageUrl={board.imageUrl}
             authorId={board.authorId}

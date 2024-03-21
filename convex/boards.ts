@@ -31,7 +31,7 @@ export const get = query({
 
       const boards = await getAllOrThrow(ctx.db, ids);
 
-      return boards.map((board: any) => ({
+      return boards.map((board) => ({
         ...board,
         isFavorite: true,
       }));
@@ -57,18 +57,21 @@ export const get = query({
         .collect();
     }
 
-    const boardsWithFavoriteRelation = boards.map(async (board) => {
-      const favorite = await ctx.db
-            .query("userFavorites")
-            .withIndex("by_user_board", (q) => q
-                .eq("userId", identity.subject)
-                .eq("boardId", board._id)
-            )
-            .unique();
-        return {
+    const boardsWithFavoriteRelation = boards.map((board) => {
+      return ctx.db
+        .query("userFavorites")
+        .withIndex("by_user_board", (q) => 
+          q
+            .eq("userId", identity.subject)
+            .eq("boardId", board._id)
+        )
+        .unique()
+        .then((favorite) => {
+          return {
             ...board,
             isFavorite: !!favorite,
-        };
+          };
+        });
     });
 
     const boardsWithFavoriteBoolean = Promise.all(boardsWithFavoriteRelation);
