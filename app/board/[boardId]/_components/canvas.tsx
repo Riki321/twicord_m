@@ -9,8 +9,9 @@ import { useHistory, useCanRedo, useCanUndo, useMutation, useStorage } from "@/l
 import { CursorsPresence } from "./cursors-presence";
 import { pointerEventToCanvasPoint } from "@/lib/utils";
 import { root } from "postcss";
-import {nanoid} from "nanoid";
+import { nanoid } from "nanoid";
 import { LiveObject } from "@liveblocks/client";
+import { LayerPreview } from "./layer-preview";
 const MAX_LAYERS = 100;
 
 
@@ -21,47 +22,49 @@ export const Canvas = ({
     boardId,
 }: CanvasProps) => {
 
-    const LayerIds=useStorage((root) => root.layerIds);
+    const LayerIds = useStorage((root) => root.layerIds);
 
     const [canvasState, setCanvasState] = useState<CanvasState>({
         mode: CanvasMode.None,
     });
 
     const [camera, setCameraState] = useState<Camera>({ x: 0, y: 0 });
-    const [lastUsedColor, setLastUsedColor] = useState<Color>({ r: 0, g: 0, b: 0});
-    
-    
+    const [lastUsedColor, setLastUsedColor] = useState<Color>({ r: 0, g: 0, b: 0 });
+
+
     const history = useHistory();
     const canUndo = useCanUndo();
     const canRedo = useCanRedo();
 
-    const insertLayer=useMutation((
-        {storage, setMyPresence},
-        layerType:LayerType.Ellipse|LayerType.Rectangle|LayerType.Text|LayerType.Note,
-        position:Point,
-    )=>{
-        const liveLayers=storage.get("layers");
-        if(liveLayers.size>=MAX_LAYERS){
+
+    // 
+    const insertLayer = useMutation((
+        { storage, setMyPresence },
+        layerType: LayerType.Ellipse | LayerType.Rectangle | LayerType.Text | LayerType.Note,
+        position: Point,
+    ) => {
+        const liveLayers = storage.get("layers");
+        if (liveLayers.size >= MAX_LAYERS) {
             return;
         }
 
-        const liveLayerIds=storage.get("layerIds");
-        const layerId=nanoid();
-        const layer=new LiveObject({
-            type:layerType,
-            x:position.x,
-            y:position.y,
-            width:100,
-            height:100,
-            fill:lastUsedColor,
+        const liveLayerIds = storage.get("layerIds");
+        const layerId = nanoid();
+        const layer = new LiveObject({
+            type: layerType,
+            x: position.x,
+            y: position.y,
+            width: 100,
+            height: 100,
+            fill: lastUsedColor,
         })
 
         liveLayerIds.push(layerId);
-        liveLayers.set(layerId,layer);
+        liveLayers.set(layerId, layer);
 
-        setMyPresence({selection:[layerId]},{addToHistory:true});
-        setCanvasState({mode:CanvasMode.None});
-    },[lastUsedColor]);
+        setMyPresence({ selection: [layerId] }, { addToHistory: true });
+        setCanvasState({ mode: CanvasMode.None });
+    }, [lastUsedColor]);
 
     const onWheel = useCallback((e: React.WheelEvent) => {
         setCameraState((camera) => ({
@@ -70,6 +73,8 @@ export const Canvas = ({
         }))
     }, []);
 
+
+    // 
     const onPointerMove = useMutation(({ setMyPresence }, e: React.
         PointerEvent) => {
         e.preventDefault();
@@ -84,6 +89,22 @@ export const Canvas = ({
     ) => {
         setMyPresence({ cursor: null });
     }, []);
+
+
+    // 
+    const onPointerUp = useMutation((
+        { },
+        e
+    ) => {
+        const point = pointerEventToCanvasPoint(e, camera);
+        if (canvasState.mode === CanvasMode.Inserting) {
+            insertLayer(canvasState.layerType, point);
+        }
+        else {
+            setCanvasState({ mode: CanvasMode.None });
+        }
+        history.resume();
+    }, [camera, canvasState, history, insertLayer]);
 
     return (
         <main className="h-full w-full relative bg-neutral-100 touch-none flex items-center justify-center">
@@ -101,12 +122,21 @@ export const Canvas = ({
                 onWheel={onWheel}
                 onPointerMove={onPointerMove}
                 onPointerLeave={onPointerLeave}
+                onPointerUp={onPointerUp}
             >
                 <g
                     style={{
                         transform: `translate(${camera.x}px, ${camera.y}px)`,
                     }}
                 >
+                    {LayerIds.map((layerId) => (
+                        <LayerPreview
+                            key={layerId}
+                            id={layerId}
+                            onLayerPointerDown={() => { }}
+                            selectionColor="#000"
+                        />
+                    ))}
                     <CursorsPresence />
                 </g>
             </svg>
