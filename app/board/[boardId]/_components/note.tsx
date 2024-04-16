@@ -27,6 +27,7 @@ interface NoteProps {
   id: string;
   layer: NoteLayer;
   onPointerDown: (e: React.PointerEvent, id: string) => void;
+  // onEnterPress: () => void;
   selectionColor?: string;
 };
 
@@ -50,6 +51,18 @@ export const Note = ({
   const handleContentChange = (e: ContentEditableEvent) => {
     updateValue(e.target.value);
   };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    // const u=value || "Text";
+    // const nValue = (e.target as HTMLDivElement).innerText ;
+    if (e.key === "Enter") {
+      e.preventDefault(); 
+      const selection = window.getSelection();
+      const range = selection?.getRangeAt(0);
+      const newlineNode = document.createElement("br");
+      range?.insertNode(newlineNode);
+      range?.collapse(false);
+    }
+  };
 
   return (
     <foreignObject
@@ -67,6 +80,7 @@ export const Note = ({
       <ContentEditable
         html={value || "Text"}
         onChange={handleContentChange}
+        onKeyDown={handleKeyDown}
         className={cn(
           "h-full w-full flex items-center justify-center text-center outline-none",
           font.className
