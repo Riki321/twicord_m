@@ -11,8 +11,8 @@ const font = Kalam({
 });
 
 const calculateFontSize = (width: number, height: number) => {
-  const maxFontSize = 96;
-  const scaleFactor = 0.5;
+  const maxFontSize = 50;
+  const scaleFactor = 0.2;
   const fontSizeBasedOnHeight = height * scaleFactor;
   const fontSizeBasedOnWidth = width * scaleFactor;
 
@@ -49,6 +49,19 @@ export const Text = ({
 
   const handleContentChange = (e: ContentEditableEvent) => {
     updateValue(e.target.value);
+    
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    // const u=value || "Text";
+    // const nValue = (e.target as HTMLDivElement).innerText ;
+    if (e.key === "Enter") {
+      e.preventDefault(); 
+      const selection = window.getSelection();
+      const range = selection?.getRangeAt(0);
+      const newlineNode = document.createElement("br");
+      range?.insertNode(newlineNode);
+      range?.collapse(false);
+    }
   };
 
   return (
@@ -65,6 +78,7 @@ export const Text = ({
       <ContentEditable
         html={value || "Text"}
         onChange={handleContentChange}
+        onKeyDown={handleKeyDown}
         className={cn(
           "h-full w-full flex items-center justify-center text-center drop-shadow-md outline-none",
           font.className
