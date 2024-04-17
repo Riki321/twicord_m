@@ -91,6 +91,7 @@ export const Canvas = ({
       height: 100,
       width: 100,
       fill: lastUsedColor,
+      fontSize: 16,
     });
 
     liveLayerIds.push(layerId);
