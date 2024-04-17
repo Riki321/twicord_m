@@ -10,16 +10,17 @@ const font = Kalam({
   weight: ["400"],
 });
 
-const calculateFontSize = (width: number, height: number) => {
+const calculateFontSize = (width: number, height: number,fontSize:number) => {
   const maxFontSize = 50;
   const scaleFactor = 0.2;
   const fontSizeBasedOnHeight = height * scaleFactor;
   const fontSizeBasedOnWidth = width * scaleFactor;
 
   return Math.min(
-    fontSizeBasedOnHeight, 
-    fontSizeBasedOnWidth, 
-    maxFontSize
+    // fontSizeBasedOnHeight, 
+    // fontSizeBasedOnWidth, 
+    maxFontSize,
+    fontSize,
   );
 }
 
@@ -28,6 +29,7 @@ interface TextProps {
   layer: TextLayer;
   onPointerDown: (e: React.PointerEvent, id: string) => void;
   selectionColor?: string;
+  // fontSize: number;
 };
 
 export const Text = ({
@@ -36,7 +38,7 @@ export const Text = ({
   id,
   selectionColor,
 }: TextProps) => {
-  const { x, y, width, height, fill, value } = layer;
+  const { x, y, width, height, fill, value,fontSize } = layer;
 
   const updateValue = useMutation((
     { storage },
@@ -84,7 +86,7 @@ export const Text = ({
           font.className
         )}
         style={{
-          fontSize: calculateFontSize(width, height),
+          fontSize: calculateFontSize(width, height,fontSize),
           color: fill ? colorToCss(fill) : "#000",
         }}
       />

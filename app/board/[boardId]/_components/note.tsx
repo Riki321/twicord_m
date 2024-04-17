@@ -10,16 +10,17 @@ const font = Kalam({
   weight: ["400"],
 });
 
-const calculateFontSize = (width: number, height: number) => {
+const calculateFontSize = (width: number, height: number,fontSize:number) => {
   const maxFontSize = 96;
   const scaleFactor = 0.15;
   const fontSizeBasedOnHeight = height * scaleFactor;
   const fontSizeBasedOnWidth = width * scaleFactor;
 
   return Math.min(
-    fontSizeBasedOnHeight, 
-    fontSizeBasedOnWidth, 
-    maxFontSize
+    // fontSizeBasedOnHeight, 
+    // fontSizeBasedOnWidth, 
+    maxFontSize,
+    fontSize,
   );
 }
 
@@ -37,7 +38,7 @@ export const Note = ({
   id,
   selectionColor,
 }: NoteProps) => {
-  const { x, y, width, height, fill, value } = layer;
+  const { x, y, width, height, fill, value,fontSize } = layer;
 
   const updateValue = useMutation((
     { storage },
@@ -86,7 +87,7 @@ export const Note = ({
           font.className
         )}
         style={{
-          fontSize: calculateFontSize(width, height),
+          fontSize: calculateFontSize(width, height,fontSize),
           color: fill ? getContrastingTextColor(fill) : "#000",
         }}
       />

@@ -25,6 +25,7 @@ export type Color = {
     width: number;
     fill: Color;
     value?: string;
+    fontSize?: number;
   };
   
   export type EllipseLayer = {
@@ -35,6 +36,7 @@ export type Color = {
     width: number;
     fill: Color;
     value?: string;
+    fontSize?: number;
   };
   
   export type PathLayer = {
@@ -46,16 +48,19 @@ export type Color = {
     fill: Color;
     points: number[][];
     value?: string;
+    fontSize?: number;
   };
   
   export type TextLayer = {
     type: LayerType.Text;
     x: number;
     y: number;
+    fontSize: number;
     height: number;
     width: number;
     fill: Color;
     value?: string;
+    
   };
   
   export type NoteLayer = {
@@ -66,6 +71,7 @@ export type Color = {
     width: number;
     fill: Color;
     value?: string;
+    fontSize: number;
   };
   
   export type Point = {

@@ -11,6 +11,7 @@ import { useDeleteLayers } from "@/hooks/use-delete-layers";
 import { useSelectionBounds } from "@/hooks/use-selection-bounds";
 
 import { ColorPicker } from "./color-picker";
+import { FontSizePicker } from "./font-picker";
 
 interface SelectionToolsProps {
   camera: Camera;
@@ -76,6 +77,18 @@ export const SelectionTools = memo(({
     })
   }, [selection, setLastUsedColor]);
 
+
+  const setFontSize = useMutation((
+    { storage },
+    fontSize: number,
+  ) => {
+    const liveLayers = storage.get("layers");
+
+    selection.forEach((id) => {
+      liveLayers.get(id)?.set("fontSize", fontSize);
+    })
+  }, [selection, ]);
+
   const deleteLayers = useDeleteLayers();
 
   const selectionBounds = useSelectionBounds();
@@ -103,6 +116,9 @@ export const SelectionTools = memo(({
       <ColorPicker
         onChange={setFill}
       />
+      <FontSizePicker
+        onChange={setFontSize}
+        />
       <div className="flex flex-col gap-y-0.5">
         <Hint label="Bring to front">
           <Button
