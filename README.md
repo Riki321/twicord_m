@@ -27,6 +27,67 @@ Twicord prioritizes data security and privacy, ensuring that users' data is hand
 
 
 
+## Screenshots:
+### Basic third-party authentication:
+![Screenshot 2024-03-21 050436](https://github.com/Riki321/twicord_miro/assets/79001372/934c97b7-8f6a-425a-b639-1d4813f85a29)
+
+
+
+### Empty Workspace UI:
+![Screenshot 2024-03-21 050628](https://github.com/Riki321/twicord_miro/assets/79001372/5e74da87-5b74-40fa-926e-6448f2cb78d5)
+
+
+
+
+
+
+
+
+
+### Create a organization dilogbox
+![Screenshot 2024-03-21 050742](https://github.com/Riki321/twicord_miro/assets/79001372/1bea5287-6977-47e2-91a3-2c6a91dab063)
+
+
+### Work Space UI
+![Screenshot 2024-04-28 231955](https://github.com/Riki321/twicord_miro/assets/79001372/f92a0b0c-e032-4ff3-9b5d-98e7d00bbd70)
+
+
+
+
+
+
+
+
+
+
+
+
+### Created a board workspace named untitled (by defualt) and there are additional options for rename,deleted etc.
+![Screenshot 2024-03-21 051142](https://github.com/Riki321/twicord_miro/assets/79001372/f52f742c-ae3f-4a50-b4e0-5699cc820a38)
+
+
+
+
+
+
+
+
+
+
+### Favourite board feature
+![Screenshot 2024-03-21 051749](https://github.com/Riki321/twicord_miro/assets/79001372/aaaa999e-cae2-481c-9c26-b294de60ef3b)
+
+
+
+### Invite people for a collaboration screen
+![Screenshot 2024-04-28 231839](https://github.com/Riki321/twicord_miro/assets/79001372/6d126cce-0883-4e86-8d22-2c39a0fef824)
+
+
+### Canvas panel
+![draving_photo](https://github.com/Riki321/twicord_miro/assets/79001372/48b1febb-e33e-46ad-b8b7-3da0a5ae28c6)
+
+### Collaborative work feature
+![Screenshot 2024-05-02 142834](https://github.com/Riki321/twicord_miro/assets/79001372/484b2f1b-f690-4c97-8d85-de6915bb0561)
 
 
 
